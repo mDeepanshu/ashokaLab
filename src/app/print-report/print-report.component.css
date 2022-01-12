@@ -1,0 +1,9 @@
+.container-fluid {
+  font-size: 12pt;
+  border: 3px;
+  border-width: 1cm;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.main {
+  margin-top: 180px;
+}

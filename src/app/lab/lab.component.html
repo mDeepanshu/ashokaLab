@@ -1,0 +1,106 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <h3><b> PATIENT QUEUE</b></h3>
+      <div class="row">
+        <div class="col-sm-3"><h4>#</h4></div>
+        <div class="col-sm-3"><h4>NAME</h4></div>
+        <div class="col-sm-3"><h4>PHONE</h4></div>
+        <div class="col-sm-3"><h4>DATE</h4></div>
+      </div>
+      <div
+        class="row patientList"
+        *ngFor="let option of reportParameters; index as i"
+      >
+        <mat-accordion>
+          <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>{{ i + 1 }}</mat-panel-title>
+              <mat-panel-title>{{
+                option.patient_data.first_name
+              }}</mat-panel-title>
+              <mat-panel-title>{{
+                option.patient_data.mobile
+              }}</mat-panel-title>
+              <mat-panel-title>{{ option.date }}</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-list role="list">
+              <mat-list-item
+                role="listitem"
+                *ngFor="let x of option.tests; let ii = index"
+              >
+                <mat-radio-button
+                  color="primary"
+                  [checked]="ii == defaultSelected"
+                  [value]="x.test_id"
+                  (change)="selectLab($event.value, ii, i)"
+                >
+                  {{ x.test_name }}
+                </mat-radio-button>
+              </mat-list-item>
+            </mat-list>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div class="row">
+          <div class="col-2">
+            <button class="btn btn-warning" (click)="clear()">
+              Clear Parameters
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-2"><h3>PARAMETER</h3></div>
+          <div class="col-sm-4"><h3>VALUE</h3></div>
+          <div class="col-sm-3"><h3>RANGE</h3></div>
+          <div class="col-sm-2"><h3>UNIT</h3></div>
+        </div>
+        <form [formGroup]="labReport" (ngSubmit)="onSubmit()">
+          <div class="div" formArrayName="params">
+            <div
+              class="form-group row"
+              *ngFor="let shoe of getControls; index as i"
+            >
+              <label
+                for="{{ selectedLabData.parameters[i].name }}"
+                class="col-sm-2 col-form-label"
+                >{{ selectedLabData.parameters[i].name }}</label
+              >
+              <div class="col-sm-4">
+                <input
+                  class="form-control"
+                  id="{{ selectedLabData.parameters[i].name }}"
+                  [formControlName]="i"
+                />
+              </div>
+              <div class="col-sm-3">
+                {{ selectedLabData.parameters[i].normal_range }}
+              </div>
+              <div class="col-sm-2">
+                {{ selectedLabData.parameters[i].unit }}
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary mb-2">
+            SAVE REPORT
+          </button>
+          <button
+            type="button"
+            (click)="print()"
+            class="btn btn-primary mb-2 ml-1"
+          >
+            Print
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<input class="form-control" type="text" #name />
+<input class="form-control" type="number" #age />
+<button class="btn btn-primary" (click)="replace(name.value, age.value)">
+  replace
+</button>
